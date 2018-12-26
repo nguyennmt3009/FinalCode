@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+        <h2>User Management</h2>
+        <table border="1" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <a href="/logout" >Logout</a>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/global.js"></script>
+    <script>
+        var userListData = [];
+        var data = [
+    {
+        id: 1,
+        fullname: 'Alibaba',
+        username: 'alibaba',
+        password: '123456'
+    },
+    {
+        id: 2,
+        fullname: 'Blibaba',
+        username: 'blibaba',
+        password: '123456'
+    },
+    {
+        id: 3,
+        fullname: 'Clibaba',
+        username: 'clibaba',
+        password: '123456'
+    },
+    {
+        id: 4,
+        fullname: 'Dlibaba',
+        username: 'dlibaba',
+        password: '123456'
+    },
+    {
+        id: 5,
+        fullname: 'Elibaba',
+        username: 'elibaba',
+        password: '123456'
+    },
+]
+$(document).ready(function() {
+  populateTable();
+});
+
+function populateTable() {
+
+  var tableContent = '';
+  let q = `
+    {
+        allUser {
+            id
+        }
+    }`;
+
+fetch( '/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({query: q})
+},function( data ) {
+    
+    $.each(data, function(){
+      tableContent += '<tr>';
+      tableContent += '<td>'+ this.id + '</td>';
+      tableContent += '<td>' + this.fullname + '</td>';
+      tableContent += '<td>'+ this.username + '</td>';
+      tableContent += '<td></td>';
+      tableContent += '</tr>';
+    });
+    $('#datatable tbody').html(tableContent);
+  });
+};
+    </script>
+</html>
