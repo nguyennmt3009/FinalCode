@@ -28,7 +28,7 @@ router.get('/login', sessionChecker, (req, res) => {
         res.sendFile(__dirname + '/public/login.html');
 });
 router.post('/login', (req, res) => {
-    var username = req.body.username,
+    let username = req.body.username,
         password = req.body.password;
     console.log(`Log in: ${username} ${password}`);
     let user = userDAO.login(username, password);

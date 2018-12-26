@@ -7,7 +7,6 @@ const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 
-// const usersRouter = require('./routes/users');
 
 app.use(express.static(path.join(__dirname, 'routes/public')));
 

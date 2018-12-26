@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Home</title>
+        <link rel="stylesheet" href="assets/style.css" />
     </head>
     <body>
         <h2>User Management</h2>
@@ -13,26 +14,56 @@
                     <th>ID</th>
                     <th>Full Name</th>
                     <th>Username</th>
-                    <th></th>
+                    <th>Password</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
         <br><br><br>
+        <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Edit User</h3>
+                        <table>
+                            <tr>
+                                <td>ID</td>
+                                <td><input readonly type="text" name="id" id="ei"></td>
+                            </tr>
+                            <tr>
+                                <td>Full Name</td>
+                                <td><input type="text" name="fullname" id="ef"></td>
+                            </tr>
+                            <tr>
+                                <td>User Name</td>
+                                <td><input type="text" name="username" id="eu"></td>
+                            </tr>
+                            <tr>
+                                <td>Password</td>
+                                <td><input type="text" name="Password" id="ep"></td>
+                            </tr>
+                            <tr>
+                                <td><button id="btnClose">Cancel</button></td>
+                                <td><button onclick="submitEdit()">OK</button></td>
+                            </tr>
+                        </table>
+                </div>
+                
+        </div>
         <h3>Create New</h3>
-        <form action="/create" method="POST">
+        <form action="" onsubmit="addnew()" method="POST">
             <table>
                 <tr>
                     <td>Full Name</td>
-                    <td><input type="text" name="fullname" id=""></td>
+                    <td><input type="text" name="fullname" id="fullname"></td>
                 </tr>
                 <tr>
                     <td>User Name</td>
-                    <td><input type="text" name="fullname" id=""></td>
+                    <td><input type="text" name="username" id="username"></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type="text" name="fullname" id=""></td>
+                    <td><input type="text" name="Password" id="password"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><button type="submit">Create</button></td>
@@ -40,46 +71,9 @@
             </table>
         </form>
     </body>
+    
+    <script src="assets/animation.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/global.js"></script>
-    <script>
-        
-    $(document).ready(function() {
-        populateTable();
-    });
-
-    function populateTable() {
-        var tableContent = '';
-        let q = `
-            {
-                allUser {
-                    id,
-                    fullname,
-                    username,
-                }
-            }`;
-
-        fetch('/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({query: q})
-        })
-        .then(r => r.json())
-        .then(function(re) {
-            
-            $.each(re.data.allUser, function(){
-            tableContent += '<tr>';
-            tableContent += '<td>'+ this.id + '</td>';
-            tableContent += '<td>' + this.fullname + '</td>';
-            tableContent += '<td>'+ this.username + '</td>';
-            tableContent += '<td>' + '</td>';
-            tableContent += '</tr>';
-            });
-            $('#datatable tbody').html(tableContent);
-        });
-    };
-    </script>
+ 
 </html>
