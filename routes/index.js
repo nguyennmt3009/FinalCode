@@ -18,10 +18,10 @@ router.get('/', sessionChecker, (req, res) => {
 router.get('/home', function(req, res, next) {
   if (req.session.user && req.cookies.user_sid) {
     res.sendFile(__dirname + '/public/manage.html');
-} else {
-    res.redirect('/login');
-}
-})
+    } else {
+        res.redirect('/login');
+    }
+});
 
 
 router.get('/login', sessionChecker, (req, res) => {
@@ -48,6 +48,7 @@ router.get('/logout', (req, res) => {
         res.redirect('/login');
     }
 });
+
 
 
 module.exports = router;

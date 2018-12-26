@@ -4,6 +4,9 @@
     </head>
     <body>
         <h2>User Management</h2>
+        <a href="/logout" >Logout</a>
+        <br />
+        <br />
         <table border="1" id="datatable">
             <thead>
                 <tr>
@@ -15,77 +18,68 @@
             </thead>
             <tbody></tbody>
         </table>
-        <a href="/logout" >Logout</a>
+        <br><br><br>
+        <h3>Create New</h3>
+        <form action="/create" method="POST">
+            <table>
+                <tr>
+                    <td>Full Name</td>
+                    <td><input type="text" name="fullname" id=""></td>
+                </tr>
+                <tr>
+                    <td>User Name</td>
+                    <td><input type="text" name="fullname" id=""></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="text" name="fullname" id=""></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">Create</button></td>
+                </tr>
+            </table>
+        </form>
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/global.js"></script>
     <script>
-        var userListData = [];
-        var data = [
-    {
-        id: 1,
-        fullname: 'Alibaba',
-        username: 'alibaba',
-        password: '123456'
-    },
-    {
-        id: 2,
-        fullname: 'Blibaba',
-        username: 'blibaba',
-        password: '123456'
-    },
-    {
-        id: 3,
-        fullname: 'Clibaba',
-        username: 'clibaba',
-        password: '123456'
-    },
-    {
-        id: 4,
-        fullname: 'Dlibaba',
-        username: 'dlibaba',
-        password: '123456'
-    },
-    {
-        id: 5,
-        fullname: 'Elibaba',
-        username: 'elibaba',
-        password: '123456'
-    },
-]
-$(document).ready(function() {
-  populateTable();
-});
-
-function populateTable() {
-
-  var tableContent = '';
-  let q = `
-    {
-        allUser {
-            id
-        }
-    }`;
-
-fetch( '/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({query: q})
-},function( data ) {
-    
-    $.each(data, function(){
-      tableContent += '<tr>';
-      tableContent += '<td>'+ this.id + '</td>';
-      tableContent += '<td>' + this.fullname + '</td>';
-      tableContent += '<td>'+ this.username + '</td>';
-      tableContent += '<td></td>';
-      tableContent += '</tr>';
+        
+    $(document).ready(function() {
+        populateTable();
     });
-    $('#datatable tbody').html(tableContent);
-  });
-};
+
+    function populateTable() {
+        var tableContent = '';
+        let q = `
+            {
+                allUser {
+                    id,
+                    fullname,
+                    username,
+                }
+            }`;
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({query: q})
+        })
+        .then(r => r.json())
+        .then(function(re) {
+            
+            $.each(re.data.allUser, function(){
+            tableContent += '<tr>';
+            tableContent += '<td>'+ this.id + '</td>';
+            tableContent += '<td>' + this.fullname + '</td>';
+            tableContent += '<td>'+ this.username + '</td>';
+            tableContent += '<td>' + '</td>';
+            tableContent += '</tr>';
+            });
+            $('#datatable tbody').html(tableContent);
+        });
+    };
     </script>
 </html>
