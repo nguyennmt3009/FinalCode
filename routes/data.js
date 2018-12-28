@@ -3,7 +3,7 @@ var Users = [
         id: 1,
         fullname: 'Alibaba',
         username: 'alibaba',
-        password: '123456'
+        password: '123456',
     },
     {
         id: 2,
